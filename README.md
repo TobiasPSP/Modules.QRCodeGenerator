@@ -9,8 +9,9 @@ Install-Module -Name QRCodeGenerator -Scope CurrentUser -Force
 Next, explore the functions, for example:
 
 ```powershell
-New-QRCodeVCard -Show
+Get-Help New-QRCodeVCard -ShowWindow
 ```
+
 
 
 
