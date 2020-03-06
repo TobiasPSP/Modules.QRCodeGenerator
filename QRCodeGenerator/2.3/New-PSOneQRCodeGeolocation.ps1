@@ -66,7 +66,7 @@
         
         $null = Invoke-RestMethod -SessionVariable session -Uri "https://geocode.xyz"
         $data = Invoke-RestMethod -WebSession $session -Uri "https://geocode.xyz/${AddressEncoded}?json=1"
-        if ($data.error -ne $null)
+        if ($null -eq $data.error)
         {
             throw "Address not found. $($data.Error.Description)"
         }
