@@ -1,6 +1,6 @@
 # Modules.QRCodeGenerator
 
-Cross-platform offline QR code generator. Please install from the **PowerShellGallery**:
+Cross-platform offline QR code generator. Please install from the [**PowerShellGallery**](https://www.powershellgallery.com/packages/QRCodeGenerator):
 
 ```powershell
 Install-Module -Name QRCodeGenerator -Scope CurrentUser -Force
