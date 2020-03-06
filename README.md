@@ -12,7 +12,7 @@ Next, explore the functions, for example:
 Get-Help New-QRCodeVCard -ShowWindow
 ```
 
-All Commands
+All Commands:
 
 ```powershell
 New-QRCodeGeolocation
