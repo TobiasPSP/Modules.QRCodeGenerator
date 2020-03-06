@@ -12,6 +12,13 @@ Next, explore the functions, for example:
 Get-Help New-QRCodeVCard -ShowWindow
 ```
 
+All Commands
 
-
+```powershell
+New-QRCodeGeolocation
+New-QRCodeText
+New-QRCodeTwitter
+New-QRCodeVCard
+New-QRCodeWifiAccess
+```
 
