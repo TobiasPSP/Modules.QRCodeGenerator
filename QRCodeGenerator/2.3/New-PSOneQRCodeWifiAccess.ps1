@@ -23,7 +23,7 @@
             Path to generated png file. When omitted, a temporary file name is used.
 
             .EXAMPLE
-            New-PSOneQRCodeWifiAccess -SSID InternetCafe -Longitude TopSecret123 -Width 200 -Show -OutPath "$home\Desktop\qr.png"
+            New-PSOneQRCodeWifiAccess -SSID InternetCafe -Password TopSecret123 -Width 200 -Show -OutPath "$home\Desktop\qr.png"
             Creates a QR code png graphics on your desktop, and opens it with the associated program
 
             .NOTES
