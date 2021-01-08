@@ -20,5 +20,6 @@ New-QRCodeText
 New-QRCodeTwitter
 New-QRCodeVCard
 New-QRCodeWifiAccess
+New-QRCodeURI
 ```
 
