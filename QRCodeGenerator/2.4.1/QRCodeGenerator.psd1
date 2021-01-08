@@ -1,6 +1,6 @@
 ﻿@{
 RootModule = 'loader.psm1'
-ModuleVersion = '2.4.0'
+ModuleVersion = '2.4.1'
 CompatiblePSEditions = 'Core', 'Desktop'
 GUID = '24384c68-14b0-46d1-ada8-7e0595d477a6'
 Author = 'Dr. Tobias Weltner'
