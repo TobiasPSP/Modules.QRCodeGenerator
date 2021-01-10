@@ -18,6 +18,7 @@ All Commands:
 New-QRCodeGeolocation
 New-QRCodeText
 New-QRCodeTwitter
+New-QRCodeURI
 New-QRCodeVCard
 New-QRCodeWifiAccess
 New-QRCodeURI
