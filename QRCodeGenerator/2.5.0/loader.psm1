@@ -10,5 +10,6 @@ $null = [System.Reflection.Assembly]::Load([System.Convert]::FromBase64String($c
 . $PSScriptRoot\New-PSOneQRCodeWifiAccess.ps1
 . $PSScriptRoot\New-PSOneQRCodeTwitter.ps1
 . $PSScriptRoot\New-PSOneQRCodeText.ps1
+. $PSScriptRoot\New-PSOneQRCodeURI.ps1
 . $PSScriptRoot\New-PSOneQRCode.ps1
 . $PSScriptRoot\aliases.ps1
