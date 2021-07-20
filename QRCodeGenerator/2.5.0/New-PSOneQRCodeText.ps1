@@ -42,11 +42,17 @@
         $Show,
 
         [string]
-        $OutPath = "$env:temp\qrcode.png"
+        $OutPath = "$env:temp\qrcode.png",
+
+        [byte[]] 
+        $darkColorRgba = @(0,0,0),
+
+        [byte[]]
+        $lightColorRgba = @(255,255,255)
     )
 
     
     $payload = "$Text"
 
-    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath
+    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
 }
