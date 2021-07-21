@@ -59,7 +59,7 @@ function New-PSOneQRCode
         
 
     $generator = New-Object -TypeName QRCoder.QRCodeGenerator
-    $data = $generator.CreateQrCode($payload, 'Q')
+    $data = $generator.CreateQrCode($payload, [QRCoder.QRCodeGenerator+ECCLevel]::Q)
     $code = new-object -TypeName QRCoder.PngByteQRCode -ArgumentList ($data)
     $byteArray = $code.GetGraphic($Width, $darkColorRgba, $lightColorRgba)
     [System.IO.File]::WriteAllBytes($outPath, $byteArray)
