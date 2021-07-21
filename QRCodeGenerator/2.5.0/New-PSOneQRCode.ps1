@@ -47,14 +47,21 @@ function New-PSOneQRCode
         $Width = 100,
 
         [string]
-        $OutPath = "$env:temp\qrcode.png"
+        $OutPath = "$env:temp\qrcode.png",
+
+        [byte[]] 
+        $darkColorRgba = @(0,0,0),
+
+        [byte[]]
+        $lightColorRgba = @(255,255,255)
+        
     )
         
 
     $generator = New-Object -TypeName QRCoder.QRCodeGenerator
     $data = $generator.CreateQrCode($payload, 'Q')
     $code = new-object -TypeName QRCoder.PngByteQRCode -ArgumentList ($data)
-    $byteArray = $code.GetGraphic($Width)
+    $byteArray = $code.GetGraphic($Width, $darkColorRgba, $lightColorRgba)
     [System.IO.File]::WriteAllBytes($outPath, $byteArray)
 
     if ($Show) { Invoke-Item -Path $outPath }
