@@ -57,7 +57,6 @@ function New-PSOneQRCodeURI
     )
     
 $payload = @"
-
 $($URI.AbsoluteUri)
 "@
 
