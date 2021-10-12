@@ -38,7 +38,7 @@
             https://github.com/TobiasPSP/Modules.QRCodeGenerator
     #>
 
-    [CmdletBinding(DefaultParameterSetName="Address")]
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
