@@ -1,17 +1,14 @@
-function New-PSOneQRCode
+﻿function New-PSOneQRCodeWhatsAppMessage
 {
     <#
             .SYNOPSIS
-            Creates a QR code graphic
+            Creates a QR code graphic containing a Whatsapp Message
 
             .DESCRIPTION
-            Creates a QR code graphic in png format that - when scanned by a smart device
-
-            .PARAMETER Payload
-            The Payload for the QR code
-
-            .PARAMETER Width
-            Height and Width of generated graphics (in pixels). Default is 100.
+            Creates a QR code graphic in png format that - when scanned by a smart device - opens a Whatsapp to send the defined Message
+            
+            .PARAMETER Text
+            The Text to send via WhatsApp
 
             .PARAMETER Show
             Opens the generated QR code in associated program
@@ -20,7 +17,7 @@ function New-PSOneQRCode
             Path to generated png file. When omitted, a temporary file name is used.
 
             .EXAMPLE
-            New-PSOneQRCode -payload $payload -Width $width -Show -OutPath $OutPath
+            New-PSOneQRCodeWhatsAppMessage -Text "Check out the following link: https://github.com/TobiasPSP/Modules.QRCodeGenerator" -Width 200 -Show -OutPath "$home\Desktop\qr.png"
             Creates a QR code png graphics on your desktop, and opens it with the associated program
 
             .NOTES
@@ -36,15 +33,14 @@ function New-PSOneQRCode
     (
         [Parameter(Mandatory)]
         [string]
-        $payload,
-
-        [Parameter(Mandatory)]
-        [bool]
-        $Show,
-
+        $text,
+        
         [ValidateRange(10,2000)]
         [int]
         $Width = 100,
+
+        [Switch]
+        $Show,
 
         [string]
         $OutPath = "$env:temp\qrcode.png",
@@ -54,15 +50,9 @@ function New-PSOneQRCode
 
         [byte[]]
         $LightColorRgba = @(255,255,255)
-        
     )
-        
 
-    $generator = New-Object -TypeName QRCoder.QRCodeGenerator
-    $data = $generator.CreateQrCode($payload, [QRCoder.QRCodeGenerator+ECCLevel]::Q)
-    $code = new-object -TypeName QRCoder.PngByteQRCode -ArgumentList ($data)
-    $byteArray = $code.GetGraphic($Width, $darkColorRgba, $lightColorRgba)
-    [System.IO.File]::WriteAllBytes($outPath, $byteArray)
-
-    if ($Show) { Invoke-Item -Path $outPath }
+    $payload = New-Object -TypeName QRCoder.PayloadGenerator+WhatsAppMessage -ArgumentList $text
+    
+    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
 }

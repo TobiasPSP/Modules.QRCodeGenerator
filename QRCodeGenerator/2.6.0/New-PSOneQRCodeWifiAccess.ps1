@@ -13,6 +13,10 @@
             .PARAMETER Password
             The Wifi access point password
 
+            .PARAMETER AuthenticationMode
+            The Wifi access point Authentication Mode (nopass, WEP, WPA)
+            WPA also is WPA2
+
             .PARAMETER Width
             Height and Width of generated graphics (in pixels). Default is 100.
 
@@ -34,16 +38,19 @@
             https://github.com/TobiasPSP/Modules.QRCodeGenerator
     #>
 
-    [CmdletBinding(DefaultParameterSetName="Address")]
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory)]
         [string]
         $SSID,
 
-        [Parameter(Mandatory)]
         [string]
         $Password,
+
+        [Parameter(Mandatory)]
+        [Authentication]
+        $AuthenticationMode,
 
         [ValidateRange(10,2000)]
         [int]
@@ -62,9 +69,16 @@
         $LightColorRgba = @(255,255,255)
     )
         
-    $payload = @"
-WIFI:S:$SSID;T:WPA2;P:$Password;;
-"@
-
+    switch ($authenticationMode) {
+        WEP { $Authentication = [QRCoder.PayloadGenerator+WiFi+Authentication]::WEP; break}
+        WPA { $Authentication = [QRCoder.PayloadGenerator+WiFi+Authentication]::WPA; break}
+        Default {
+            $Authentication =  [QRCoder.PayloadGenerator+WiFi+Authentication]::nopass
+            $password = "" 
+        }
+    }
+    
+    $payload = New-Object -TypeName QRCoder.PayloadGenerator+WiFi -ArgumentList ($SSID, $password, $Authentication)
+   
     New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
 }
