@@ -7,6 +7,7 @@ $null = [System.Reflection.Assembly]::Load([System.Convert]::FromBase64String($c
 # LOADING ALL FUNCTION DEFINITIONS:
 . $PSScriptRoot\New-PSOneQRCodeVCard.ps1
 . $PSScriptRoot\New-PSOneQRCodeGeolocation.ps1
+. $PSScriptRoot\Types\PSOneQRCodeAuthentication.ps1
 . $PSScriptRoot\New-PSOneQRCodeWifiAccess.ps1
 . $PSScriptRoot\New-PSOneQRCodeTwitter.ps1
 . $PSScriptRoot\New-PSOneQRCodeText.ps1
