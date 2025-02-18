@@ -1,5 +1,4 @@
-﻿function New-PSOneQRCodeGeolocation
-{
+﻿function New-PSOneQRCodeGeolocation {
     <#
             .SYNOPSIS
             Creates a QR code graphic containing a geo location
@@ -22,6 +21,9 @@
             .PARAMETER OutPath
             Path to generated png file. When omitted, a temporary file name is used.
 
+            .PARAMETER AsByteArray
+            Returns the byte array data for in memory processing.
+
             .EXAMPLE
             New-PSOneQRCodeGeoLocation -Latitude 21.12 -Longitude 22.87 -Width 200 -Show -OutPath "$home\Desktop\qr.png"
             Creates a QR code png graphics on your desktop, and opens it with the associated program
@@ -34,58 +36,81 @@
             https://github.com/TobiasPSP/Modules.QRCodeGenerator
     #>
 
-    [CmdletBinding(DefaultParameterSetName="Address")]
+    [CmdletBinding(DefaultParameterSetName = "Address")]
     param
     (
-        [Parameter(Mandatory,ParameterSetName='Location')]
+        [Parameter(Mandatory, ParameterSetName = 'Location')]
+        [Parameter(Mandatory, ParameterSetName = 'ByteArrayLocation')]
         [double]
         $Latitude,
-
-        [Parameter(Mandatory,ParameterSetName='Location')]
+        
+        [Parameter(Mandatory, ParameterSetName = 'Location')]
+        [Parameter(Mandatory, ParameterSetName = 'ByteArrayLocation')]
         [double]
         $Longitude,
         
-        [Parameter(Mandatory,ParameterSetName='Address')]
+        [Parameter(Mandatory, ParameterSetName = 'Address')]
+        [Parameter(Mandatory, ParameterSetName = 'ByteArrayAddress')]
         [string]
         $Address,
 
-        [ValidateRange(10,2000)]
+        [ValidateRange(10, 2000)]
         [int]
         $Width = 100,
 
         [Switch]
         $Show,
 
+        [Parameter(ParameterSetName = 'Location')]
+        [Parameter(ParameterSetName = 'Address')]
         [string]
-        $OutPath = "$env:temp\qrcode.png",
+        $OutPath = $Global:defaultQrCodePath,
+        
+        [Parameter(ParameterSetName = 'ByteArrayLocation')]
+        [Parameter(ParameterSetName = 'ByteArrayAddress')]
+        [switch]
+        $AsByteArray,
 
         [byte[]] 
-        $DarkColorRgba = @(0,0,0),
+        $DarkColorRgba = @(0, 0, 0),
 
         [byte[]]
-        $LightColorRgba = @(255,255,255)
+        $LightColorRgba = @(255, 255, 255)
 
     )
 
-    if ($PSCmdlet.ParameterSetName -eq "Address")
-    {
+    if ($PSCmdlet.ParameterSetName -eq "Address") {
         $AddressEncoded = [System.Net.WebUtility]::UrlEncode($Address)
         $ApiUri = "http://nominatim.openstreetmap.org/search?q=$AddressEncoded&format=xml&addressdetails=1&limit=1"
         $Response = Invoke-RestMethod -Uri $ApiUri -UseBasicParsing
 
         $place = $Response.searchresults.place
 
-        if ($null -eq $place)
-        {
+        if ($null -eq $place) {
             throw "Address not found."
         }
-        $Latitude =$place.lat
+        $Latitude = $place.lat
         $Longitude = $place.lon
     }
     
     $payload = @"
 geo:$Latitude,$Longitude
 "@
- 
-    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
+
+    $splat = @{
+        payload        = $payload
+        Show           = $Show
+        Width          = $Width
+        OutPath        = $OutPath
+        darkColorRgba  = $darkColorRgba
+        lightColorRgba = $lightColorRgba
+    }
+
+    if ($PSCmdlet.ParameterSetName -match 'ByteArray') {
+        $splat.Add('AsByteArray', $true)
+        $splat.Remove('OutPath')
+        $splat.Show = $False
+    }
+
+    New-PSOneQRCode @splat
 }
