@@ -3,7 +3,7 @@ BeforeAll {
     $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
-Describe 'New-PSOneQRCodeTwitter' {
+Describe 'New-PSOneQRCodeURI' {
     AfterEach {
         $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
     }
