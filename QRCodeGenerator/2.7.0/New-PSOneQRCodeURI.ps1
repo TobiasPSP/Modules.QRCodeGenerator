@@ -18,6 +18,9 @@ function New-PSOneQRCodeURI {
             .PARAMETER OutPath
             Path to generated png file. When omitted, a temporary file name is used.
 
+            .PARAMETER AsByteArray
+            Returns the byte array data for in memory processing.
+
             .EXAMPLE
             New-PSOneQRCodeURI -URI "https://github.com/TobiasPSP/Modules.QRCodeGenerator" -Width 50 -Show -OutPath "$home\Desktop\qr.png"
             Creates a QR code png graphics on your desktop, and opens it with the associated program

@@ -14,6 +14,9 @@
             .PARAMETER OutPath
             Path to generated png file. When omitted, a temporary file name is used.
 
+            .PARAMETER AsByteArray
+            Returns the byte array data for in memory processing.
+
             .EXAMPLE
             New-PSOneQRCodeTwitter -ProfileName tobiaspsp -Width 200 -Show -OutPath "$home\Desktop\qr.png"
             Creates a QR code png graphics on your desktop, and opens it with the associated program
