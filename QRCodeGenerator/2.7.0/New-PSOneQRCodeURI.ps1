@@ -1,5 +1,4 @@
-function New-PSOneQRCodeURI
-{
+function New-PSOneQRCodeURI {
     <#
             .SYNOPSIS
             Creates a QR code graphic containing a URI
@@ -31,7 +30,7 @@ function New-PSOneQRCodeURI
             https://github.com/TobiasPSP/Modules.QRCodeGenerator
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'File')]
     param
     (
         [Parameter(Mandatory)]
@@ -39,27 +38,42 @@ function New-PSOneQRCodeURI
         [System.Uri]
         $URI,
 
-        [ValidateRange(10,2000)]
+        [ValidateRange(10, 2000)]
         [int]
         $Width = 100,
 
         [Switch]
         $Show,
 
+        [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = "$env:temp\qrcode.png",
+        $OutPath = $Global:defaultQrCodePath,
+        
+        [Parameter(ParameterSetName = 'ByteArray')]
+        [switch]
+        $AsByteArray,
 
         [byte[]] 
-        $DarkColorRgba = @(0,0,0),
+        $DarkColorRgba = @(0, 0, 0),
 
         [byte[]]
-        $LightColorRgba = @(255,255,255)
+        $LightColorRgba = @(255, 255, 255)
     )
     
-$payload = @"
+    $splat = @{
+        payload        = $URI.AbsoluteUri
+        Show           = $Show
+        Width          = $Width
+        OutPath        = $OutPath
+        darkColorRgba  = $darkColorRgba
+        lightColorRgba = $lightColorRgba
+    }
 
-$($URI.AbsoluteUri)
-"@
+    if ($PSCmdlet.ParameterSetName -match 'ByteArray') {
+        $splat.Add('AsByteArray', $true)
+        $splat.Remove('OutPath')
+        $splat.Show = $False
+    }
 
-    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
+    New-PSOneQRCode @splat
 }
