@@ -17,7 +17,7 @@ Describe 'New-PsOneQRCode' {
     It 'returns the byte array when `-AsByteArray` switch is on' {
         $byteArray = New-PSOneQRCode -payload 'Test' -Show $False -AsByteArray
 
-        $byteArray.Count | Should -BeNullOrEmpty
+        $byteArray.Count | Should -Not -BeNullOrEmpty
         Test-Path "$env:TEMP\qrcode.png" | Should -BeFalse
     }
 }
