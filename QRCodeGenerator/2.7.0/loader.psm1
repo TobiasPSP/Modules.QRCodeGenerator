@@ -4,6 +4,9 @@ $content = 'TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 $null = [System.Reflection.Assembly]::Load([System.Convert]::FromBase64String($content))
 
+$Global:tempFolder = [System.IO.Path]::GetTempPath()
+$Global:defaultQrCodePath = Join-Path -Path $Global:tempFolder -ChildPath 'qrcode.png'
+
 # LOADING ALL FUNCTION DEFINITIONS:
 . $PSScriptRoot\New-PSOneQRCodeVCard.ps1
 . $PSScriptRoot\New-PSOneQRCodeGeolocation.ps1
