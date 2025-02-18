@@ -50,7 +50,7 @@ function New-PSOneQRCode {
 
         [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = "$env:TEMP\qrcode.png",
+        $OutPath = $Global:defaultQrCodePath,
         
         [Parameter(ParameterSetName = 'ByteArray')]
         [switch]
