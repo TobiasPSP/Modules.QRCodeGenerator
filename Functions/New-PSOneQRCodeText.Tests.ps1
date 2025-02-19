@@ -1,21 +1,21 @@
-BeforeAll {
-    Import-Module "$PSScriptRoot\loader.psm1" -Force
+﻿BeforeAll {
+    Import-Module "$PSScriptRoot\..\loader.psm1" -Force
     $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
-Describe 'New-PSOneQRCodeURI' {
+Describe 'New-PSOneQRCodeText' {
     AfterEach {
         $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
     }
 
     It 'defaults to file based output' {
-        New-PSOneQRCodeURI -URI 'http://127.0.0.1'
+        New-PSOneQRCodeText -Text 'Test'
 
         Get-Item $Global:defaultQrCodePath | Should -Exist
     }
 
     It 'returns the byte array when `-AsByteArray` switch is on' {
-        $byteArray = New-PSOneQRCodeURI -URI 'http://127.0.0.1' -AsByteArray
+        $byteArray = New-PSOneQRCodeText -Text 'Test' -AsByteArray
 
         $byteArray.Count | Should -Not -BeNullOrEmpty
         Test-Path $Global:defaultQrCodePath | Should -BeFalse

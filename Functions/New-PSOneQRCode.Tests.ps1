@@ -1,21 +1,21 @@
-﻿BeforeAll {
-    Import-Module "$PSScriptRoot\loader.psm1" -Force
+BeforeAll {
+    Import-Module "$PSScriptRoot\..\loader.psm1" -Force
     $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
-Describe 'New-PSOneQRCodeTwitter' {
+Describe 'New-PsOneQRCode' {
     AfterEach {
         $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
     }
 
     It 'defaults to file based output' {
-        New-PSOneQRCodeTwitter -ProfileName 'Test'
+        New-PSOneQRCode -payload 'Test' -Show $False
 
         Get-Item $Global:defaultQrCodePath | Should -Exist
     }
 
     It 'returns the byte array when `-AsByteArray` switch is on' {
-        $byteArray = New-PSOneQRCodeTwitter -ProfileName 'Test' -AsByteArray
+        $byteArray = New-PSOneQRCode -payload 'Test' -Show $False -AsByteArray
 
         $byteArray.Count | Should -Not -BeNullOrEmpty
         Test-Path $Global:defaultQrCodePath | Should -BeFalse

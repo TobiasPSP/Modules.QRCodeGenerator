@@ -1,5 +1,5 @@
 ﻿BeforeAll {
-    Import-Module "$PSScriptRoot\loader.psm1" -Force
+    Import-Module "$PSScriptRoot\..\loader.psm1" -Force
     $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
