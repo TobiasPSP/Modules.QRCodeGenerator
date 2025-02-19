@@ -23,5 +23,5 @@ Describe 'New-PSOneQRCodeTwitter' {
 }
 
 AfterAll {
-    Remove-Module "$PSScriptRoot\loader.psm1" -Force -ErrorAction SilentlyContinue
+    Remove-Module "$PSScriptRoot\..\loader.psm1" -Force -ErrorAction SilentlyContinue
 }
