@@ -16,20 +16,20 @@ function New-PSOneQRCodeVCard
             .PARAMETER Company
             Company name
 			
-			.PARAMETER Title
+	    .PARAMETER Title
             Title
 
             .PARAMETER Email
             email address
 			
-			.PARAMETER Mobile
-			Mobile phone number
+	    .PARAMETER Mobile
+	    Mobile phone number
 
-			.PARAMETER Phone
-			Telephone number
+	    .PARAMETER Phone
+	    Telephone number
 			
-			.PARAMETER Address
-			Postal address
+	    .PARAMETER Address
+	    Postal address
 
             .PARAMETER Width
             Height and Width of generated graphics (in pixels). Default is 100.
