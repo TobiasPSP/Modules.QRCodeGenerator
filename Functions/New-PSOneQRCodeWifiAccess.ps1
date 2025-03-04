@@ -1,5 +1,4 @@
-﻿function New-PSOneQRCodeWifiAccess
-{
+﻿function New-PSOneQRCodeWifiAccess {
     <#
             .SYNOPSIS
             Creates a QR code graphic containing a Wifi access
@@ -22,6 +21,9 @@
             .PARAMETER OutPath
             Path to generated png file. When omitted, a temporary file name is used.
 
+            .PARAMETER AsByteArray
+            Returns the byte array data for in memory processing.
+
             .EXAMPLE
             New-PSOneQRCodeWifiAccess -SSID InternetCafe -Password TopSecret123 -Width 200 -Show -OutPath "$home\Desktop\qr.png"
             Creates a QR code png graphics on your desktop, and opens it with the associated program
@@ -34,7 +36,7 @@
             https://github.com/TobiasPSP/Modules.QRCodeGenerator
     #>
 
-    [CmdletBinding(DefaultParameterSetName="Address")]
+    [CmdletBinding(DefaultParameterSetName = 'File')]
     param
     (
         [Parameter(Mandatory)]
@@ -45,26 +47,46 @@
         [string]
         $Password,
 
-        [ValidateRange(10,2000)]
+        [ValidateRange(10, 2000)]
         [int]
         $Width = 100,
 
         [Switch]
         $Show,
 
+        [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = "$env:temp\qrcode.png",
+        $OutPath = $Global:defaultQrCodePath,
+        
+        [Parameter(ParameterSetName = 'ByteArray')]
+        [switch]
+        $AsByteArray,
         
         [byte[]] 
-        $DarkColorRgba = @(0,0,0),
+        $DarkColorRgba = @(0, 0, 0),
 
         [byte[]]
-        $LightColorRgba = @(255,255,255)
+        $LightColorRgba = @(255, 255, 255)
     )
         
     $payload = @"
 WIFI:S:$SSID;T:WPA2;P:$Password;;
 "@
 
-    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
+    $splat = @{
+        payload        = $payload
+        Show           = $Show
+        Width          = $Width
+        OutPath        = $OutPath
+        darkColorRgba  = $darkColorRgba
+        lightColorRgba = $lightColorRgba
+    }
+
+    if ($PSCmdlet.ParameterSetName -match 'ByteArray') {
+        $splat.Add('AsByteArray', $true)
+        $splat.Remove('OutPath')
+        $splat.Show = $False
+    }
+
+    New-PSOneQRCode @splat
 }
