@@ -1,40 +1,129 @@
-﻿BeforeAll {
-    Import-Module "$PSScriptRoot\loader.psm1" -Force
-    $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
-}
+function New-PSOneQRCodeVCard
+{
+    <#
+            .SYNOPSIS
+            Creates a QR code graphic containing person data
 
-Describe 'New-PSOneQRCodeVCard' {
-    AfterEach {
-        $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
-    }
+            .DESCRIPTION
+            Creates a QR code graphic in png format that - when scanned by a smart device - adds a contact to the address book.
 
-    It 'defaults to file based output' {
-        $splat = @{
-            FirstName = 'Test'
-            LastName  = 'Test'
-            Company   = 'Test'
-            Email     = 'tst@test.test'
-        }
-        New-PSOneQRCodeVCard @splat
+            .PARAMETER FirstName
+            Person first name
 
-        Get-Item $Global:defaultQrCodePath | Should -Exist
-    }
+            .PARAMETER LastName
+            Person last name
 
-    It 'returns the byte array when `-AsByteArray` switch is on' {
-        $splat = @{
-            FirstName   = 'Test'
-            LastName    = 'Test'
-            Company     = 'Test'
-            Email       = 'tst@test.test'
-            AsByteArray = $True
-        }
-        $byteArray = New-PSOneQRCodeVCard @splat
+            .PARAMETER Company
+            Company name
+			
+	    .PARAMETER Title
+            Title
 
-        $byteArray.Count | Should -Not -BeNullOrEmpty
-        Test-Path $Global:defaultQrCodePath | Should -BeFalse
-    }
-}
+            .PARAMETER Email
+            email address
+			
+	    .PARAMETER Mobile
+	    Mobile phone number
 
-AfterAll {
-    Remove-Module "$PSScriptRoot\loader.psm1" -Force -ErrorAction SilentlyContinue
+	    .PARAMETER Phone
+	    Telephone number
+			
+	    .PARAMETER Address
+	    Postal address
+
+            .PARAMETER Width
+            Height and Width of generated graphics (in pixels). Default is 100.
+
+            .PARAMETER Show
+            Opens the generated QR code in associated program
+
+            .PARAMETER OutPath
+            Path to generated png file. When omitted, a temporary file name is used.
+
+            .EXAMPLE
+            New-PSOneQRCodeVCard -FirstName Tom -LastName Sawyer -Company "Huckle Inc." -Email t.sawyer@huckle.com -Width 200 -Show -OutPath "$home\Desktop\qr.png"
+            Creates a QR code png graphics on your desktop, and opens it with the associated program
+
+            .NOTES
+            Compatible with all PowerShell versions including PowerShell 6/Core
+            Uses binaries from https://github.com/codebude/QRCoder/wiki
+
+            .LINK
+            https://github.com/TobiasPSP/Modules.QRCodeGenerator
+    #>
+
+
+    param
+    (
+        [Parameter(Mandatory)]
+        [string]
+        $FirstName,
+
+        [Parameter(Mandatory)]
+        [string]
+        $LastName,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Company,
+
+        [Parameter(Mandatory)]
+        [string]
+        $Title,
+
+        [Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string]
+        $Email,
+		
+	[Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string]
+        $Mobile,
+
+	[Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string]
+        $Phone,
+		
+	[Parameter(Mandatory)]
+        [AllowEmptyString()]
+        [string]
+        $Address,
+        
+        [ValidateRange(10,2000)]
+        [int]
+        $Width = 100,
+
+        [Switch]
+        $Show,
+
+        [string]
+        $OutPath = "$env:temp\qrcode.png",
+
+        [byte[]] 
+        $DarkColorRgba = @(0,0,0),
+
+        [byte[]]
+        $LightColorRgba = @(255,255,255)
+    )
+
+    $Name = "$FirstName $LastName"
+
+    $payload = @"
+BEGIN:VCARD
+VERSION:3.0
+KIND:individual
+N:$LastName;$FirstName
+FN:$Name
+ORG:$Company
+TITLE:$Title
+TEL;TYPE=CELL:$Mobile
+TEL;TYPE=WORK:$Phone
+EMAIL;TYPE=INTERNET:$Email
+ADR;TYPE=WORK:$Address
+END:VCARD
+"@
+    
+    New-PSOneQRCode -payload $payload -Show $Show -Width $Width -OutPath $OutPath -darkColorRgba $darkColorRgba -lightColorRgba $lightColorRgba
 }
