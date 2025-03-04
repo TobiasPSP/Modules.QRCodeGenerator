@@ -76,17 +76,17 @@ function New-PSOneQRCodeVCard
         [string]
         $Email,
 		
-		[Parameter(Mandatory)]
+	[Parameter(Mandatory)]
         [AllowEmptyString()]
         [string]
         $Mobile,
 
-		[Parameter(Mandatory)]
+	[Parameter(Mandatory)]
         [AllowEmptyString()]
         [string]
         $Phone,
 		
-		[Parameter(Mandatory)]
+	[Parameter(Mandatory)]
         [AllowEmptyString()]
         [string]
         $Address,
