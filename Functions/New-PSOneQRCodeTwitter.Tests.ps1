@@ -1,25 +1,21 @@
 ﻿BeforeAll {
-    Import-Module "$PSScriptRoot\loader.psm1" -Force
+    Import-Module "$PSScriptRoot\..\loader.psm1" -Force
     $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
 }
 
-Describe 'New-PSOneQRCodeGeolocation' {
+Describe 'New-PSOneQRCodeTwitter' {
     AfterEach {
         $Global:defaultQrCodePath | Remove-Item -Force -ErrorAction SilentlyContinue
     }
 
     It 'defaults to file based output' {
-        New-PSOneQRCodeGeolocation -Address 'Test'
+        New-PSOneQRCodeTwitter -ProfileName 'Test'
 
         Get-Item $Global:defaultQrCodePath | Should -Exist
     }
 
-    It 'throws when address is not found' {
-        { New-PSOneQRCodeGeolocation -Address 'This is not an address' } | Should -Throw
-    }
-
     It 'returns the byte array when `-AsByteArray` switch is on' {
-        $byteArray = New-PSOneQRCodeGeolocation -Address 'Test' -AsByteArray
+        $byteArray = New-PSOneQRCodeTwitter -ProfileName 'Test' -AsByteArray
 
         $byteArray.Count | Should -Not -BeNullOrEmpty
         Test-Path $Global:defaultQrCodePath | Should -BeFalse
@@ -27,5 +23,5 @@ Describe 'New-PSOneQRCodeGeolocation' {
 }
 
 AfterAll {
-    Remove-Module "$PSScriptRoot\loader.psm1" -Force -ErrorAction SilentlyContinue
+    Remove-Module "$PSScriptRoot\..\loader.psm1" -Force -ErrorAction SilentlyContinue
 }
