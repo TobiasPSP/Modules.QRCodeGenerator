@@ -64,7 +64,7 @@
         [Parameter(ParameterSetName = 'Location')]
         [Parameter(ParameterSetName = 'Address')]
         [string]
-        $OutPath = $Global:defaultQrCodePath,
+        $OutPath = (Get-DefaultQrCodePath),
         
         [Parameter(ParameterSetName = 'ByteArrayLocation')]
         [Parameter(ParameterSetName = 'ByteArrayAddress')]

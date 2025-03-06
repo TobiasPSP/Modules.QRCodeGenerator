@@ -20,7 +20,7 @@ function New-PSOneQRCode {
 
             .PARAMETER AsByteArray
             Returns the byte array data for in memory processing.
-            
+
             .EXAMPLE
             New-PSOneQRCode -payload $payload -Width $width -Show -OutPath $OutPath
             Creates a QR code png graphics on your desktop, and opens it with the associated program
@@ -50,29 +50,27 @@ function New-PSOneQRCode {
 
         [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = $Global:defaultQrCodePath,
-        
+        $OutPath = (Get-DefaultQrCodePath),
+
         [Parameter(ParameterSetName = 'ByteArray')]
         [switch]
         $AsByteArray,
 
-        [byte[]] 
+        [byte[]]
         $DarkColorRgba = @(0, 0, 0),
 
         [byte[]]
         $LightColorRgba = @(255, 255, 255)
-        
     )
-        
 
     $generator = New-Object -TypeName QRCoder.QRCodeGenerator
     $data = $generator.CreateQrCode($payload, 'Q')
     $code = new-object -TypeName QRCoder.PngByteQRCode -ArgumentList ($data)
     $byteArray = $code.GetGraphic($Width, $darkColorRgba, $lightColorRgba)
-    
+
     if ($AsByteArray) { return $byteArray }
-    
+
     [System.IO.File]::WriteAllBytes($outPath, $byteArray)
-    
+
     if ($Show) { Invoke-Item -Path $outPath }
 }
