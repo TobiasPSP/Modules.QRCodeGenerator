@@ -65,7 +65,7 @@ function New-PSOneQRCode {
 
     $generator = New-Object -TypeName QRCoder.QRCodeGenerator
     $data = $generator.CreateQrCode($payload, 'Q')
-    $code = new-object -TypeName QRCoder.PngByteQRCode -ArgumentList ($data)
+    $code = New-Object -TypeName QRCoder.PngByteQRCode -ArgumentList ($data)
     $byteArray = $code.GetGraphic($Width, $darkColorRgba, $lightColorRgba)
 
     if ($AsByteArray) { return $byteArray }

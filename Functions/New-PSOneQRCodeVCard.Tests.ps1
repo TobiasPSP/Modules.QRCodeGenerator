@@ -11,9 +11,9 @@ Describe 'New-PSOneQRCodeVCard' {
     It 'defaults to file based output' {
         $splat = @{
             FirstName = 'Test'
-            LastName  = 'Test'
-            Company   = 'Test'
-            Email     = 'tst@test.test'
+            LastName = 'Test'
+            Company = 'Test'
+            Email = 'tst@test.test'
         }
         New-PSOneQRCodeVCard @splat
 
@@ -22,10 +22,10 @@ Describe 'New-PSOneQRCodeVCard' {
 
     It 'returns the byte array when `-AsByteArray` switch is on' {
         $splat = @{
-            FirstName   = 'Test'
-            LastName    = 'Test'
-            Company     = 'Test'
-            Email       = 'tst@test.test'
+            FirstName = 'Test'
+            LastName = 'Test'
+            Company = 'Test'
+            Email = 'tst@test.test'
             AsByteArray = $True
         }
         $byteArray = New-PSOneQRCodeVCard @splat
