@@ -21,10 +21,8 @@ jobs:
     - name: Run Pester Tests
       run: |
         # Run Pester tests with Code Coverage
-        $config = New-PesterConfiguration
-        $config.Run.Path = "."
-        $config.CodeCoverage.Enabled = $true
-        $config.TestResult.Enabled = $true
+        Import-Module -Name Pester -Force
+        [PesterConfiguration] $config = Import-PowerShellDataFile -Path ".\config.pester.psd1" -ErrorAction Stop
         Invoke-Pester -Configuration $config
 
     - name: Upload code coverage report
