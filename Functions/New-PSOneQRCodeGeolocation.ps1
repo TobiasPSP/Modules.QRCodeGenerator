@@ -36,7 +36,7 @@
             https://github.com/TobiasPSP/Modules.QRCodeGenerator
     #>
 
-    [CmdletBinding(DefaultParameterSetName = "Address")]
+    [CmdletBinding(DefaultParameterSetName = 'Address')]
     param
     (
         [Parameter(Mandatory, ParameterSetName = 'Location')]
@@ -64,7 +64,7 @@
         [Parameter(ParameterSetName = 'Location')]
         [Parameter(ParameterSetName = 'Address')]
         [string]
-        $OutPath = $Global:defaultQrCodePath,
+        $OutPath = (Get-DefaultQrCodePath),
         
         [Parameter(ParameterSetName = 'ByteArrayLocation')]
         [Parameter(ParameterSetName = 'ByteArrayAddress')]
@@ -79,7 +79,7 @@
 
     )
 
-    if ($PSCmdlet.ParameterSetName -eq "Address") {
+    if ($PSCmdlet.ParameterSetName -eq 'Address') {
         $AddressEncoded = [System.Net.WebUtility]::UrlEncode($Address)
         $ApiUri = "http://nominatim.openstreetmap.org/search?q=$AddressEncoded&format=xml&addressdetails=1&limit=1"
         $Response = Invoke-RestMethod -Uri $ApiUri -UseBasicParsing
@@ -87,7 +87,7 @@
         $place = $Response.searchresults.place
 
         if ($null -eq $place) {
-            throw "Address not found."
+            throw 'Address not found.'
         }
         $Latitude = $place.lat
         $Longitude = $place.lon
@@ -98,11 +98,11 @@ geo:$Latitude,$Longitude
 "@
 
     $splat = @{
-        payload        = $payload
-        Show           = $Show
-        Width          = $Width
-        OutPath        = $OutPath
-        darkColorRgba  = $darkColorRgba
+        payload = $payload
+        Show = $Show
+        Width = $Width
+        OutPath = $OutPath
+        darkColorRgba = $darkColorRgba
         lightColorRgba = $lightColorRgba
     }
 

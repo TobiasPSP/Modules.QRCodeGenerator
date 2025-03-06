@@ -45,7 +45,7 @@
 
         [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = $Global:defaultQrCodePath,
+        $OutPath = (Get-DefaultQrCodePath),
         
         [Parameter(ParameterSetName = 'ByteArray')]
         [switch]
@@ -59,11 +59,11 @@
     )
 
     $splat = @{
-        payload        = $Text
-        Show           = $Show
-        Width          = $Width
-        OutPath        = $OutPath
-        darkColorRgba  = $darkColorRgba
+        payload = $Text
+        Show = $Show
+        Width = $Width
+        OutPath = $OutPath
+        darkColorRgba = $darkColorRgba
         lightColorRgba = $lightColorRgba
     }
 

@@ -4,8 +4,8 @@ $content = 'TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 $null = [System.Reflection.Assembly]::Load([System.Convert]::FromBase64String($content))
 
-$Global:tempFolder = [System.IO.Path]::GetTempPath()
-$Global:defaultQrCodePath = Join-Path -Path $Global:tempFolder -ChildPath 'qrcode.png'
+$script:defaultQrCodePath = Join-Path -Path ([System.IO.Path]::GetTempPath()) -ChildPath 'qrcode.png'
+Function Get-DefaultQrCodePath { return $script:defaultQrCodePath }
 
 # LOADING ALL FUNCTION DEFINITIONS:
 . $PSScriptRoot\Functions\New-PSOneQRCodeVCard.ps1

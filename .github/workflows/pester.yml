@@ -1,0 +1,33 @@
+name: Run Pester Tests
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  pester:
+    runs-on: windows-latest 
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Pester
+      shell: pwsh
+      run: Install-Module -Name Pester -Force -Scope CurrentUser
+
+    - name: Run Pester Tests
+      run: |
+        # Run Pester tests with Code Coverage
+        Import-Module -Name Pester -Force
+        [PesterConfiguration] $config = Import-PowerShellDataFile -Path ".\config.pester.psd1" -ErrorAction Stop
+        Invoke-Pester -Configuration $config
+
+    - name: Upload code coverage report
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-coverage-report
+        path: coverage.xml

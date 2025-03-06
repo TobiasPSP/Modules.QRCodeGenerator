@@ -37,7 +37,7 @@ function New-PSOneQRCodeURI {
     param
     (
         [Parameter(Mandatory)]
-        [alias("URL")]
+        [alias('URL')]
         [System.Uri]
         $URI,
 
@@ -50,7 +50,7 @@ function New-PSOneQRCodeURI {
 
         [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = $Global:defaultQrCodePath,
+        $OutPath = (Get-DefaultQrCodePath),
         
         [Parameter(ParameterSetName = 'ByteArray')]
         [switch]
@@ -64,11 +64,11 @@ function New-PSOneQRCodeURI {
     )
     
     $splat = @{
-        payload        = $URI.AbsoluteUri
-        Show           = $Show
-        Width          = $Width
-        OutPath        = $OutPath
-        darkColorRgba  = $darkColorRgba
+        payload = $URI.AbsoluteUri
+        Show = $Show
+        Width = $Width
+        OutPath = $OutPath
+        darkColorRgba = $darkColorRgba
         lightColorRgba = $lightColorRgba
     }
 

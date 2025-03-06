@@ -56,7 +56,7 @@
 
         [Parameter(ParameterSetName = 'File')]
         [string]
-        $OutPath = $Global:defaultQrCodePath,
+        $OutPath = (Get-DefaultQrCodePath),
         
         [Parameter(ParameterSetName = 'ByteArray')]
         [switch]
@@ -74,11 +74,11 @@ WIFI:S:$SSID;T:WPA2;P:$Password;;
 "@
 
     $splat = @{
-        payload        = $payload
-        Show           = $Show
-        Width          = $Width
-        OutPath        = $OutPath
-        darkColorRgba  = $darkColorRgba
+        payload = $payload
+        Show = $Show
+        Width = $Width
+        OutPath = $OutPath
+        darkColorRgba = $darkColorRgba
         lightColorRgba = $lightColorRgba
     }
 
