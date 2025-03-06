@@ -37,12 +37,5 @@
         PSUseCorrectCasing = @{
             Enable = $true
         }
-        PSUseCompatibleCommands = @{
-            Enable = $true
-            TargetVersions = @(
-                '7.0',
-                '5.1'
-            )
-        }
     }
 }
